@@ -104,10 +104,13 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "DELL  ", "CBX3   ", 0x00000014)
 
         Return (One)
     }
-// tjl - use Windows 2012
+
+// tjl - set to Darwin for macOS
+
+    Name (DARW, "Darwin")
     Method (OOSI, 1, NotSerialized)
     {
-        If (STR9 (WIN8, Arg0))
+        If (STR9 (DARW, Arg0))
         {
             Return (One)
         }
@@ -15131,6 +15134,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "DELL  ", "CBX3   ", 0x00000014)
                     Store (0x07D9, OSYS)
                 }
 
+// tjl - set to Windows 2012
                 If(LOr(OOSI("Darwin"),OOSI("Windows 2012")))
                 {
                     Store (0x07DC, OSYS)
@@ -15140,8 +15144,6 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "DELL  ", "CBX3   ", 0x00000014)
                 {
                     Store (0x07DD, OSYS)
                 }
-// tjl - set to W 2012
-                    Store (0x07DC, OSYS)
             }
 
             PINI ()
