@@ -293,10 +293,10 @@
 						<dict>
 							<key>Command</key>
 							<data>
-							AZcHIA==
+							AYcHIA==
 							</data>
 							<key>Comment</key>
-							<string>0x19 (25) - Pin Widget Control - LineIn send 20</string>
+							<string>0x18 (24) - Pin Widget Control - LineIn send 20</string>
 							<key>On Init</key>
 							<true/>
 							<key>On Sleep</key>

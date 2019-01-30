@@ -133,11 +133,11 @@
 					<key>Make right modifier keys into Hangul and Hanja</key>
 					<false/>
 					<key>SleepPressTime</key>
-					<integer>0</integer>
+					<integer>1500</integer>
 					<key>Swap capslock and left control</key>
 					<false/>
 					<key>Swap command and option</key>
-					<false/>
+					<true/>
 					<key>Use ISO layout keyboard</key>
 					<false/>
 					<key>alt_handler_id</key>

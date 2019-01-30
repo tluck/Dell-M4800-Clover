@@ -8675,20 +8675,23 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "DELL  ", "CBX3   ", 0x00000014)
                     ,   6, 
                 PMES,   1
             }
-/* tjl disable PRW in HDEF
-            Method (_PRW, 0, NotSerialized)  // _PRW: Power Resources for Wake
+// tjl disable _PRW in HDEF
+            Method (XPRW, 0, NotSerialized)  // _PRW: Power Resources for Wake
             {
                 Return (GPRW (0x0D, 0x04))
             }
-*/
-// tjl XDSM
+
+// tjl XDSM no longer needed for codec info for AppleALC
             Method (XDSM, 4, NotSerialized)
             {
                 If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }
                 Return (Package()
                 {
-                    "layout-id", Buffer() { 0x1C, 0x00, 0x00, 0x00 },
-                    "hda-gfx", Buffer() { "onboard-1" },
+                    "layout-id", Buffer() { 0x12, 0x00, 0x00, 0x00 },
+                    "codec-id", Buffer()  { 0x92, 0x02, 0xec, 0x10 },
+                    "IOHDACodecVendorID",   0x10ec0292,
+                    "IOHDACodecRevisionID", 0x100001,
+                    "hda-gfx", Buffer()   { "onboard-1" },
                     "MaximumBootBeepVolume", 0x40,
                     "PinConfigurations", Buffer() { },
                 })
@@ -12845,8 +12848,9 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "DELL  ", "CBX3   ", 0x00000014)
                     Return (GPRW (0x09, 0x04))
                 }
                 
-// for AMD/ATI to turn off
-//              Method (_OFF, 0, Serialized)  // _OFF: Power Off
+// tjl - used with AMD/ATI to turn card off
+//              Method (_OFF, 0, Serialized)  
+// _OFF: Power Off
 //              {
 //              SGOF ()
 //              Notify (\_SB.PCI0.PEG0, Zero)
@@ -13063,236 +13067,6 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "DELL  ", "CBX3   ", 0x00000014)
             {
                 Store (LTRC, LTRS)
                 Store (OBFC, OBFS)
-            }
-        }
-
-        Device (B0D3)
-        {
-            Name (_ADR, 0x00030000)  // _ADR: Address
-            Name (BARA, 0x80000000)
-            Name (TBAR, Zero)
-            Name (TCMD, Zero)
-            Name (MODB, Zero)
-            Method (_STA, 0, NotSerialized)  // _STA: Status
-            {
-                If (LNotEqual (AUVD, 0xFFFF))
-                {
-                    Return (0x0F)
-                }
-
-                Return (Zero)
-            }
-
-            Method (_INI, 0, NotSerialized)  // _INI: Initialize
-            {
-                If (LAnd (LNotEqual (And (ABAR, 0xFFFFC004), 0xFFFFC004), LNotEqual (And (
-                    ABAR, 0xFFFFC000), Zero)))
-                {
-                    Store (ABAR, BARA)
-                }
-            }
-
-            OperationRegion (RPCS, SystemMemory, XBAS, 0x00018040)
-            Field (RPCS, AnyAcc, NoLock, Preserve)
-            {
-                Offset (0x18004), 
-                ACMD,   8, 
-                Offset (0x18010), 
-                ABAR,   32
-            }
-
-            OperationRegion (RPCZ, PCI_Config, Zero, 0x40)
-            Field (RPCZ, DWordAcc, Lock, Preserve)
-            {
-                AUVD,   16
-            }
-
-            Method (ASTR, 0, Serialized)
-            {
-                If (LAnd (LNotEqual (And (ABAR, 0xFFFFC004), 0xFFFFC004), LNotEqual (And (
-                    ABAR, 0xFFFFC000), Zero)))
-                {
-                    And (ABAR, 0xFFFFFFF0, BBAR)
-                    Add (BBAR, 0x1000, BBAR)
-                    OperationRegion (RPCY, SystemMemory, BBAR, 0x25)
-                    Field (RPCY, DWordAcc, NoLock, Preserve)
-                    {
-                        Offset (0x0C), 
-                        EM4W,   32, 
-                        EMWA,   32, 
-                        Offset (0x1C), 
-                        ADWA,   32
-                    }
-
-                    Store (AUDA, EMWA)
-                    Store (AUDB, ADWA)
-                    Store (AUDC, EM4W)
-                }
-            }
-
-            Method (VSTR, 1, Serialized)
-            {
-                Name (CONT, 0x03E8)
-                Name (ADDR, 0x80000000)
-                Store (Arg0, ADDR)
-                OperationRegion (CCDC, SystemMemory, ADDR, 0x04)
-                Field (CCDC, ByteAcc, NoLock, Preserve)
-                {
-                    CDEC,   32
-                }
-
-                If (LAnd (LNotEqual (And (ABAR, 0xFFFFC004), 0xFFFFC004), LNotEqual (And (
-                    ABAR, 0xFFFFC000), Zero)))
-                {
-                    If (LNotEqual (CDEC, Zero))
-                    {
-                        And (ABAR, 0xFFFFFFF0, BBAR)
-                        OperationRegion (IPCV, SystemMemory, BBAR, 0x70)
-                        Field (IPCV, DWordAcc, NoLock, Preserve)
-                        {
-                            Offset (0x60), 
-                            AVIC,   32, 
-                            Offset (0x68), 
-                            AIRS,   16
-                        }
-
-                        Store (0x03E8, CONT)
-                        While (LAnd (LEqual (And (AIRS, One), One), LNotEqual (CONT, Zero)))
-                        {
-                            Stall (One)
-                            Decrement (CONT)
-                        }
-
-                        Or (AIRS, 0x02, AIRS)
-                        Store (CDEC, AVIC)
-                        Or (AIRS, One, AIRS)
-                        Store (0x03E8, CONT)
-                        While (LAnd (LEqual (And (AIRS, One), One), LNotEqual (CONT, Zero)))
-                        {
-                            Stall (One)
-                            Decrement (CONT)
-                        }
-                    }
-                }
-            }
-
-            Method (CXDC, 0, Serialized)
-            {
-                Name (IDDX, 0x80000000)
-                If (LAnd (LNotEqual (CCSA, Zero), LNotEqual (CCNT, Zero)))
-                {
-                    Store (CCSA, IDDX)
-                    While (LLess (IDDX, Add (CCSA, Multiply (CCNT, 0x04))))
-                    {
-                        VSTR (IDDX)
-                        Add (IDDX, 0x04, IDDX)
-                    }
-                }
-            }
-
-            Method (ARST, 0, Serialized)
-            {
-                If (LAnd (LNotEqual (And (ABAR, 0xFFFFC004), 0xFFFFC004), LNotEqual (And (
-                    ABAR, 0xFFFFC000), Zero)))
-                {
-                    And (ABAR, 0xFFFFFFF0, BBAR)
-                    OperationRegion (IPCV, SystemMemory, BBAR, 0xBF)
-                    Field (IPCV, AnyAcc, NoLock, Preserve)
-                    {
-                        Offset (0x08), 
-                        CRST,   32, 
-                        Offset (0x4C), 
-                        CORB,   32, 
-                        Offset (0x5C), 
-                        RIRB,   32, 
-                        Offset (0x80), 
-                        OSD1,   32, 
-                        Offset (0xA0), 
-                        OSD2,   32
-                    }
-
-                    And (CORB, 0xFFFFFFFD, CORB)
-                    And (RIRB, 0xFFFFFFFD, RIRB)
-                    And (OSD1, 0xFFFFFFFD, OSD1)
-                    And (OSD2, 0xFFFFFFFD, OSD2)
-                    And (CRST, 0xFFFFFFFE, CRST)
-                }
-            }
-
-            Method (AINI, 0, Serialized)
-            {
-                Name (CONT, 0x03E8)
-                If (LAnd (LNotEqual (And (ABAR, 0xFFFFC004), 0xFFFFC004), LNotEqual (And (
-                    ABAR, 0xFFFFC000), Zero)))
-                {
-                    And (ABAR, 0xFFFFFFF0, BBAR)
-                    OperationRegion (IPCV, SystemMemory, BBAR, 0x70)
-                    Field (IPCV, DWordAcc, NoLock, Preserve)
-                    {
-                        GCAP,   16, 
-                        Offset (0x08), 
-                        GCTL,   32, 
-                        Offset (0x0E), 
-                        SSTS,   8, 
-                        Offset (0x60), 
-                        AVIC,   32, 
-                        Offset (0x68), 
-                        AIRS,   16
-                    }
-
-                    Or (GCTL, One, GCTL)
-                    Store (0x03E8, CONT)
-                    While (LAnd (LEqual (And (GCTL, One), Zero), LNotEqual (CONT, Zero)))
-                    {
-                        Stall (One)
-                        Decrement (CONT)
-                    }
-
-                    And (GCAP, 0xFFFF, GCAP)
-                    Or (SSTS, 0x0F, SSTS)
-                    And (GCTL, 0xFFFFFFFE, GCTL)
-                    Store (0x03E8, CONT)
-                    While (LAnd (LEqual (And (GCTL, One), One), LNotEqual (CONT, Zero)))
-                    {
-                        Stall (One)
-                        Decrement (CONT)
-                    }
-
-                    Or (GCTL, One, GCTL)
-                    Store (0x03E8, CONT)
-                    While (LAnd (LEqual (And (GCTL, One), Zero), LNotEqual (CONT, Zero)))
-                    {
-                        Stall (One)
-                        Decrement (CONT)
-                    }
-                }
-            }
-
-            Method (ABWA, 1, Serialized)
-            {
-                If (Arg0)
-                {
-                    If (LAnd (LNotEqual (And (BARA, 0x80000000), 0x80000000), LEqual (And (ABAR, 
-                        0xFFFFC000), Zero)))
-                    {
-                        Store (ABAR, TBAR)
-                        Store (ACMD, TCMD)
-                        Store (BARA, ABAR)
-                        Store (0x06, ACMD)
-                        Store (One, MODB)
-                    }
-                }
-                Else
-                {
-                    If (MODB)
-                    {
-                        If (LEqual (ABAR, BARA))
-                        {
-                            Store (TBAR, ABAR)
-                            Store (TCMD, ACMD)
-                        }
-                    }
-                }
             }
         }
 
@@ -13783,12 +13557,6 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "DELL  ", "CBX3   ", 0x00000014)
                         If (LEqual (PARM, One))
                         {
                             Or (AUDE, 0x20, AUDE)
-                            ^^^B0D3.ARST ()
-                            ^^^B0D3.ABWA (One)
-                            ^^^B0D3.ASTR ()
-                            ^^^B0D3.AINI ()
-                            ^^^B0D3.CXDC ()
-                            ^^^B0D3.ABWA (Zero)
                             Notify (PCI0, Zero)
                         }
 
@@ -14447,6 +14215,13 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "DELL  ", "CBX3   ", 0x00000014)
             \_SB.PCI0.RP03.HPME ()
             Notify (\_SB.PCI0.RP03, 0x02)
         }
+        
+ // fix "auto start after shutdown"      
+        If (0x05 == Arg0)
+        {
+            \_SB.PCI0.XHC.PMEE = 0
+            Return (Zero)
+        }
 
         If (LEqual (Arg0, 0x03))
         {
@@ -14511,10 +14286,11 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "DELL  ", "CBX3   ", 0x00000014)
     Method (_WAK, 1, Serialized)  // _WAK: Wake
     {
         If (LOr(LLess(Arg0,1),LGreater(Arg0,5))) { Store(3,Arg0) }
-	P8XH (One, 0xAB)
+	   P8XH (One, 0xAB)
         WAK (Arg0)
         ADBG ("_WAK")
-//* tjl disable
+
+// tjl disable this section for just IGPU
         If (LOr (LEqual (Arg0, 0x03), LEqual (Arg0, 0x04)))
         {
             If (CondRefOf (\_SB.PCI0.PEG0.PEGP.EPON))
@@ -14527,13 +14303,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "DELL  ", "CBX3   ", 0x00000014)
                 \_SB.PCI0.RP05.PEGP.EPON ()
             }
         }
-//*
-
-        If (LAnd (LNotEqual (And (\_SB.PCI0.B0D3.ABAR, 0xFFFFC004), 0xFFFFC004), LNotEqual (And (
-            \_SB.PCI0.B0D3.ABAR, 0xFFFFC000), Zero)))
-        {
-            Store (\_SB.PCI0.B0D3.ABAR, \_SB.PCI0.B0D3.BARA)
-        }
+//
 
         If (LEqual (RP3D, Zero))
         {
