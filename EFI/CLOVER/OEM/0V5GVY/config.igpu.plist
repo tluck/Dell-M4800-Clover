@@ -14,6 +14,22 @@
 			<false/>
 			<key>Fixes</key>
 			<dict>
+<<<<<<< HEAD
+				<key>AddDTGP</key>
+				<true/>
+				<key>AddHDMI</key>
+				<true/>
+				<key>AddIMEI</key>
+				<false/>
+				<key>AddMCHC</key>
+				<false/>
+				<key>AddPNLF</key>
+				<true/>
+				<key>DeleteUnused</key>
+				<true/>
+				<key>FakeLPC</key>
+				<false/>
+=======
 				<key>AddDTP</key>
 				<true/>
 				<key>AddHDMI</key>
@@ -22,12 +38,15 @@
 				<false/>
 				<key>DeleteUnused</key>
 				<true/>
+>>>>>>> e23fff0be923da5f0c2912b6ec5dcf7b15af507c
 				<key>FixACST</key>
 				<true/>
 				<key>FixADP1</key>
 				<true/>
 				<key>FixAirport</key>
 				<true/>
+				<key>FixDarwin</key>
+				<false/>
 				<key>FixDarwin7</key>
 				<true/>
 				<key>FixDisplay</key>
@@ -35,6 +54,16 @@
 				<key>FixFirewire</key>
 				<true/>
 				<key>FixHDA</key>
+<<<<<<< HEAD
+				<true/>
+				<key>FixHPET</key>
+				<true/>
+				<key>FixHeaders</key>
+				<true/>
+				<key>FixIDE</key>
+				<false/>
+				<key>FixIPIC</key>
+=======
 				<false/>
 				<key>FixHPET</key>
 				<true/>
@@ -43,8 +72,11 @@
 				<key>FixIPIC</key>
 				<true/>
 				<key>FixLAN</key>
+>>>>>>> e23fff0be923da5f0c2912b6ec5dcf7b15af507c
 				<true/>
-				<key>FixMutex</key>
+				<key>FixIntelGfx</key>
+				<false/>
+				<key>FixLAN</key>
 				<true/>
 				<key>FixRTC</key>
 				<true/>
@@ -52,14 +84,25 @@
 				<true/>
 				<key>FixS3D</key>
 				<true/>
+<<<<<<< HEAD
+				<key>FixSATA</key>
+				<false/>
+=======
+>>>>>>> e23fff0be923da5f0c2912b6ec5dcf7b15af507c
 				<key>FixSBUS</key>
 				<true/>
 				<key>FixShutdown</key>
 				<false/>
 				<key>FixTMR</key>
+<<<<<<< HEAD
+				<true/>
+				<key>FixUSB</key>
+				<false/>
+=======
 				<true/>
 				<key>FixUSB</key>
 				<true/>
+>>>>>>> e23fff0be923da5f0c2912b6ec5dcf7b15af507c
 				<key>FixWAK</key>
 				<false/>
 			</dict>
@@ -188,6 +231,8 @@
 				<string>Cpu0Ist</string>
 			</dict>
 		</array>
+		<key>FixHeaders</key>
+		<true/>
 		<key>HaltEnabler</key>
 		<true/>
 		<key>ResetAddress</key>
