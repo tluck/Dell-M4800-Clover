@@ -14,11 +14,10 @@
 			<false/>
 			<key>Fixes</key>
 			<dict>
-<<<<<<< HEAD
 				<key>AddDTGP</key>
 				<true/>
 				<key>AddHDMI</key>
-				<true/>
+				<false/>
 				<key>AddIMEI</key>
 				<false/>
 				<key>AddMCHC</key>
@@ -29,16 +28,6 @@
 				<true/>
 				<key>FakeLPC</key>
 				<false/>
-=======
-				<key>AddDTP</key>
-				<true/>
-				<key>AddHDMI</key>
-				<false/>
-				<key>AddPNLF</key>
-				<false/>
-				<key>DeleteUnused</key>
-				<true/>
->>>>>>> e23fff0be923da5f0c2912b6ec5dcf7b15af507c
 				<key>FixACST</key>
 				<true/>
 				<key>FixADP1</key>
@@ -50,12 +39,11 @@
 				<key>FixDarwin7</key>
 				<true/>
 				<key>FixDisplay</key>
-				<true/>
+				<false/>
 				<key>FixFirewire</key>
 				<true/>
 				<key>FixHDA</key>
-<<<<<<< HEAD
-				<true/>
+				<false/>
 				<key>FixHPET</key>
 				<true/>
 				<key>FixHeaders</key>
@@ -63,16 +51,6 @@
 				<key>FixIDE</key>
 				<false/>
 				<key>FixIPIC</key>
-=======
-				<false/>
-				<key>FixHPET</key>
-				<true/>
-				<key>FixHeaders</key>
-				<true/>
-				<key>FixIPIC</key>
-				<true/>
-				<key>FixLAN</key>
->>>>>>> e23fff0be923da5f0c2912b6ec5dcf7b15af507c
 				<true/>
 				<key>FixIntelGfx</key>
 				<false/>
@@ -84,25 +62,16 @@
 				<true/>
 				<key>FixS3D</key>
 				<true/>
-<<<<<<< HEAD
 				<key>FixSATA</key>
 				<false/>
-=======
->>>>>>> e23fff0be923da5f0c2912b6ec5dcf7b15af507c
 				<key>FixSBUS</key>
 				<true/>
 				<key>FixShutdown</key>
 				<false/>
 				<key>FixTMR</key>
-<<<<<<< HEAD
 				<true/>
 				<key>FixUSB</key>
 				<false/>
-=======
-				<true/>
-				<key>FixUSB</key>
-				<true/>
->>>>>>> e23fff0be923da5f0c2912b6ec5dcf7b15af507c
 				<key>FixWAK</key>
 				<false/>
 			</dict>
@@ -250,7 +219,7 @@
 	<key>Boot</key>
 	<dict>
 		<key>Arguments</key>
-		<string>-no_compat_check radpg=15 -wegdbg</string>
+		<string>-no_compat_check radpg=15 -wegdbg -liludbg -alcdbg aaplbkl=0</string>
 		<key>Debug</key>
 		<false/>
 		<key>DefaultVolume</key>
@@ -338,6 +307,10 @@
 				</data>
 			</dict>
 		</dict>
+		<key>SetIntelBacklight</key>
+		<true/>
+		<key>SetIntelMaxBacklight</key>
+		<true/>
 		<key>USB</key>
 		<dict>
 			<key>AddClockID</key>
@@ -389,6 +362,8 @@
 		<string>1280x1024</string>
 		<key>Theme</key>
 		<string>Clovy</string>
+		<key>Timezone</key>
+		<string>-8</string>
 		<key>XScreenResolution</key>
 		<string>1920x1080</string>
 	</dict>
@@ -401,7 +376,7 @@
 			<key>ATI</key>
 			<true/>
 			<key>Intel</key>
-			<true/>
+			<false/>
 		</dict>
 		<key>LoadVBios</key>
 		<true/>

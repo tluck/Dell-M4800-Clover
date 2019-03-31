@@ -279,10 +279,10 @@
 						<dict>
 							<key>Command</key>
 							<data>
-							AScHJA==
+							AScHIA==
 							</data>
 							<key>Comment</key>
-							<string>0x12 (18) - Pin Widget Control - Mic send 24</string>
+							<string>0x12 (18) - Pin Widget Control - Mic send 20</string>
 							<key>On Init</key>
 							<true/>
 							<key>On Sleep</key>
@@ -293,10 +293,10 @@
 						<dict>
 							<key>Command</key>
 							<data>
-							AYcHIA==
+							AYcHJA==
 							</data>
 							<key>Comment</key>
-							<string>0x18 (24) - Pin Widget Control - LineIn send 20</string>
+							<string>0x18 (24) - Pin Widget Control - LineIn send 24</string>
 							<key>On Init</key>
 							<true/>
 							<key>On Sleep</key>
@@ -307,10 +307,10 @@
 						<dict>
 							<key>Command</key>
 							<data>
-							AacHIA==
+							AacHJA==
 							</data>
 							<key>Comment</key>
-							<string>0x1a (26) - Pin Widget Control - LineIn send 20</string>
+							<string>0x1a (26) - Pin Widget Control - LineIn send 24</string>
 							<key>On Init</key>
 							<true/>
 							<key>On Sleep</key>
