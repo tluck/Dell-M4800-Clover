@@ -17635,7 +17635,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "DELL  ", "CBX3   ", 0x00000014)
     Name (APRE, Zero)
     Scope (_SB.PCI0.LPCB)
     {
-        Device (ECDV)
+        Device (EC)
         {
             Name (_HID, EisaId ("PNP0C09"))  // _HID: Hardware ID
             Name (_UID, Zero)  // _UID: Unique ID
@@ -17661,10 +17661,10 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "DELL  ", "CBX3   ", 0x00000014)
 
             Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
             {
-                CreateWordField (ECRS, \_SB.PCI0.LPCB.ECDV._Y36._MIN, DMIN)  // _MIN: Minimum Base Address
-                CreateWordField (ECRS, \_SB.PCI0.LPCB.ECDV._Y36._MAX, DMAX)  // _MAX: Maximum Base Address
-                CreateWordField (ECRS, \_SB.PCI0.LPCB.ECDV._Y37._MIN, CMIN)  // _MIN: Minimum Base Address
-                CreateWordField (ECRS, \_SB.PCI0.LPCB.ECDV._Y37._MAX, CMAX)  // _MAX: Maximum Base Address
+                CreateWordField (ECRS, \_SB.PCI0.LPCB.EC._Y36._MIN, DMIN)  // _MIN: Minimum Base Address
+                CreateWordField (ECRS, \_SB.PCI0.LPCB.EC._Y36._MAX, DMAX)  // _MAX: Maximum Base Address
+                CreateWordField (ECRS, \_SB.PCI0.LPCB.EC._Y37._MIN, CMIN)  // _MIN: Minimum Base Address
+                CreateWordField (ECRS, \_SB.PCI0.LPCB.EC._Y37._MAX, CMAX)  // _MAX: Maximum Base Address
                 Add (0x0900, 0x30, Local0)
                 Store (Local0, DMIN)
                 Store (Local0, DMAX)
@@ -18159,7 +18159,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "DELL  ", "CBX3   ", 0x00000014)
 
         Method (ECBT, 2, NotSerialized)
         {
-            Store (\_SB.PCI0.LPCB.ECDV.ECR1 (Arg0), Local0)
+            Store (\_SB.PCI0.LPCB.EC.ECR1 (Arg0), Local0)
             And (Local0, Arg1, Local0)
             If (Local0)
             {
@@ -18182,17 +18182,17 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "DELL  ", "CBX3   ", 0x00000014)
 
         Method (ECRB, 1, NotSerialized)
         {
-            Return (\_SB.PCI0.LPCB.ECDV.ECR1 (Arg0))
+            Return (\_SB.PCI0.LPCB.EC.ECR1 (Arg0))
         }
 
         Method (ECRW, 1, NotSerialized)
         {
-            Return (\_SB.PCI0.LPCB.ECDV.ECR2 (Arg0))
+            Return (\_SB.PCI0.LPCB.EC.ECR2 (Arg0))
         }
 
         Method (ECWB, 2, NotSerialized)
         {
-            \_SB.PCI0.LPCB.ECDV.ECW1 (Arg0, Arg1)
+            \_SB.PCI0.LPCB.EC.ECW1 (Arg0, Arg1)
         }
 
         Method (ECG1, 0, NotSerialized)
@@ -19729,7 +19729,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "DELL  ", "CBX3   ", 0x00000014)
     {
     }
 
-    Scope (_SB.PCI0.LPCB.ECDV)
+    Scope (_SB.PCI0.LPCB.EC)
     {
         Method (CMFC, 4, Serialized)
         {
@@ -19959,7 +19959,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "DELL  ", "CBX3   ", 0x00000014)
         \_SB.CBAT (Arg0, Arg1)
         \_SB.PCI0.GFX0.IVD3 (Arg0, Arg1)
         \_SB.PCI0.LPCB.DCK5 (Arg0, Arg1)
-        \_SB.PCI0.LPCB.ECDV.ECM9 (Arg0, Arg1)
+        \_SB.PCI0.LPCB.EC.ECM9 (Arg0, Arg1)
         \_SB.RBTN.NRBT (Arg0, Arg1)
         \_SB.SOS3 (Arg0, Arg1)
         \_SB.SOS4 (Arg0, Arg1)
